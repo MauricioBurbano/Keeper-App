@@ -89,3 +89,7 @@ button {
   font-size: 1rem;
   border-radius: 7px;
 }
+
+.delete {
+  width: 100px;
+}

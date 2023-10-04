@@ -1,29 +1,32 @@
 import { useState } from "react"
-import Note from "./Note"
 
 function Form(props) {
-    const [title, setTitle] = useState('')
-    const [content, setContent] = useState('')
+    const [note, setNote] = useState(
+        {
+            title: '',
+            content: ''
+        }
+    )
 
     function handleInput(event) {
-        const value = event.target.value
-        const name = event.target.name
+        const {name, value} = event.target
 
-        if (name === 'title') {
-            setTitle(value)
-        } else setContent(value)
+        setNote(prevNote => {
+            return {
+                ...prevNote,
+                [name]: value
+            }
+        })
     }
 
     function handleForm(event) {
-        props.onSubmit(
-            {
-                title: title,
-                content: content
-            }
-        )
+        props.onSubmit(note)
 
-        setTitle('')
-        setContent('')
+        setNote({
+            title: '',
+            content: ''
+        })
+
         event.preventDefault()
     }
     
@@ -31,8 +34,8 @@ function Form(props) {
         <div className="container">
             <div className="note form">
                 <form onSubmit={handleForm}>
-                    <input name="title" type="text" onChange={handleInput} value={title} />
-                    <input name="content" type="text" onChange={handleInput} value={content} />
+                    <input name="title" type="text" onChange={handleInput} value={note.title} />
+                    <input name="content" type="text" onChange={handleInput} value={note.content} />
                     <button>Add</button>
                 </form>
             </div>
